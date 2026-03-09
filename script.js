@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ctaBtn) {
         ctaBtn.addEventListener('click', () => {
             console.log('Download CV button clicked');
-            // Example: window.location.href = 'path/to/cv.pdf';
+            window.location.href = 'assets/cv/CV_TranVuDuc.pdf';
         });
     }
 
