@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             console.log('Social link clicked:', link.title);
-            // Example: window.open(link.href, '_blank');
+            window.open(link.href, '_blank');
         });
     });
 
