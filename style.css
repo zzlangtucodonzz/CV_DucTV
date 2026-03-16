@@ -725,9 +725,6 @@ section:last-child {
 }
 
 /* fade-in utility used by JavaScript observer */
-.fade-in-section .stat-item {
-    /* initial state already set above */
-}
 
 .fade-in-section.visible .stat-item {
     transform: translateY(0);
@@ -1115,7 +1112,6 @@ section:last-child {
     overflow: hidden;
     height: 350px;
     cursor: pointer;
-    group: project;
     transition: all 0.4s ease;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);

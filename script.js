@@ -4,6 +4,9 @@
  * ========================================
  */
 
+// Initialize EmailJS with the public key (must run before DOM events)
+emailjs.init('Lj1GIgRAb3Fc7uBxB');
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================================================
@@ -88,6 +91,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // "Let's Connect" banner button → smooth scroll to Contact section
+    const letsConnectBtn = document.getElementById('letsConnectBtn');
+    if (letsConnectBtn) {
+        letsConnectBtn.addEventListener('click', () => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
     const socialLinks = document.querySelectorAll('.social-link');
     socialLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -103,15 +117,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
     const accordionHeaders = document.querySelectorAll('.accordion-header');
     accordionHeaders.forEach(header => {
-        header.addEventListener('click', function() {
+        header.addEventListener('click', function () {
             const panel = this.parentElement;
             const isOpen = panel.classList.contains('open');
-            
+
             // Close all panels
             document.querySelectorAll('.accordion-panel').forEach(p => {
                 p.classList.remove('open');
             });
-            
+
             // Open clicked panel if it was closed
             if (!isOpen) {
                 panel.classList.add('open');
@@ -124,15 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
     const filterTabs = document.querySelectorAll('.filter-tab');
     const projectCards = document.querySelectorAll('.project-card');
-    
+
     filterTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
+        tab.addEventListener('click', function () {
             const filter = this.getAttribute('data-filter');
-            
+
             // Update active tab
             filterTabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
-            
+
             // Filter projects
             projectCards.forEach(card => {
                 if (filter === 'all' || card.getAttribute('data-category') === filter) {
@@ -173,7 +187,70 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============================================================
-    // 6. CONSOLE LOG - INITIALIZATION
+    // 6. EMAILJS - CONTACT FORM SUBMISSION
+    // ============================================================
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    /**
+     * Validates that all required EmailJS template variables are non-empty.
+     * Returns an error message string, or null if everything is valid.
+     */
+    const validateContactForm = (form) => {
+        const fields = [
+            { name: 'from_name',   label: 'Name' },
+            { name: 'user_email',  label: 'Email' },
+            { name: 'subject',     label: 'Subject' },
+            { name: 'message',     label: 'Message' },
+        ];
+
+        for (const { name, label } of fields) {
+            const value = form.elements[name]?.value.trim();
+            if (!value) return `Please fill in the "${label}" field.`;
+        }
+
+        // Basic e-mail format check
+        const emailValue = form.elements['user_email'].value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailValue)) return 'Please enter a valid email address.';
+
+        return null;
+    };
+
+    if (contactForm && submitBtn) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const validationError = validateContactForm(contactForm);
+            if (validationError) {
+                alert(validationError);
+                return;
+            }
+
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            emailjs
+                .sendForm('service_oyhbvvo', 'template_w69jt7r', contactForm)
+                .then(() => {
+                    alert('Thank you! Your message has been sent successfully.');
+                    contactForm.reset();
+                })
+                .catch((error) => {
+                    console.error('EmailJS error:', error);
+                    alert('Oops! Something went wrong. Please check your connection.');
+                })
+                .finally(() => {
+                    // Restore button regardless of outcome
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'SEND MESSAGE';
+                });
+        });
+    }
+
+    // ============================================================
+    // 7. CONSOLE LOG - INITIALIZATION
     // ============================================================
     console.log('%c✨ DucTV Portfolio Revamped & Loaded! ✨', 'color: #00aaff; font-size: 16px; font-weight: bold;');
     console.log('%cWelcome to the new vibe.', 'color: #ff00ff; font-size: 12px;');

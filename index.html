@@ -6,6 +6,8 @@
     <title>DucTV - Personal Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <div class="sparkle-container"></div>
@@ -102,7 +104,7 @@
                             <h3 class="banner-title">Ready for New Challenges</h3>
                             <p class="banner-text">Always prepared to learn and embrace new opportunities!</p>
                         </div>
-                        <button class="banner-btn">Let's connect</button>
+                        <button class="banner-btn" id="letsConnectBtn">Let's connect</button>
                     </div>
                 </div>
             </section>
@@ -534,15 +536,15 @@
 
                         <!-- Right Column - Contact Form -->
                         <div class="contact-form-column">
-                            <form class="contact-form" id="contactForm">
+                            <form class="contact-form" id="contact-form">
                                 <!-- Name Input -->
                                 <div class="form-group">
-                                    <input type="text" id="name" name="name" placeholder="Your Name" class="form-input" required>
+                                    <input type="text" id="name" name="from_name" placeholder="Your Name" class="form-input" required>
                                 </div>
 
                                 <!-- Email Input -->
                                 <div class="form-group">
-                                    <input type="email" id="email" name="email" placeholder="Your Email" class="form-input" required>
+                                    <input type="email" id="email" name="user_email" placeholder="Your Email" class="form-input" required>
                                 </div>
 
                                 <!-- Subject Input -->
@@ -556,7 +558,7 @@
                                 </div>
 
                                 <!-- Submit Button -->
-                                <button type="submit" class="form-submit">Send Message</button>
+                                <button type="submit" id="submit-btn" class="form-submit">SEND MESSAGE</button>
                             </form>
                         </div>
                     </div>
